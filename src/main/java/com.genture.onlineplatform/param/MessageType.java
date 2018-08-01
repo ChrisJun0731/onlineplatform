@@ -8,7 +8,7 @@ public enum MessageType {
 	DEVICE_STATUS("device_stauts"),
 	DEVICE_DATE("device_date"),
 	BASIC_PARAM("basic_param"),
-	GATEWAY_INFO("gateway"),
+	GATEWAY_INFO("gateway_info"),
 	VERSION("version"),
 	DEVICE_ONLINE("device_online"),
 	IS_ENCRYPT("encrypt_query"),
@@ -24,7 +24,6 @@ public enum MessageType {
 	POWER_EXCEPTION("power_exception"),
 	ENCRYPT_SET("encrypt_set"),
 	CROP("crop"),
-	SCREEN_CLEAN("clear_screen"),
 
 	FILE("file"),
 	PUSH_PROGRAM("push_program"),
@@ -37,8 +36,10 @@ public enum MessageType {
 	QUERY_LOCAL_REFRESH("query_local_refresh"),
 
 	QUERY_ROAD_COLOR("query_road_color"),
-	ROAD_COLOR_SET("road_color_set");
-
+	ROAD_COLOR_SET("road_color_set"),
+	SCREEN_CLEAN("clear_screen"),
+	EDIT_RIBBON_TEXT("edit_ribbon_text"),
+	QUERY_RIBBON_TEXT("query_ribbon_text");
 
 	private String type;
 

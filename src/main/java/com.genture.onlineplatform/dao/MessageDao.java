@@ -19,10 +19,12 @@ public class MessageDao {
 	 * @return
 	 */
 	public String queryGatewayId(String deviceId){
-		String sql = "select gateway_id from t_vms_info where id = ?";
-		return jdbcTemplate.queryForObject(sql, (rs, i) -> {
-			String id = rs.getString("gateway_id");
-			return id;
-		}, deviceId);
+		String sql = "select gateway_id from t_vms_info where id = " + deviceId ;
+//		return jdbcTemplate.queryForObject(sql, (rs, i) -> {
+//			String id = rs.getString("gateway_id");
+//			return id;
+//		}, deviceId);
+
+		return jdbcTemplate.queryForObject(sql, String.class);
 	}
 }

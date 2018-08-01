@@ -1,6 +1,9 @@
-package com.genture.onlineplatform.controller.info;
+package com.genture.onlineplatform.controller;
 
+import com.genture.onlineplatform.param.info.EncryptInfo;
+import com.genture.onlineplatform.param.info.GatewayInfo;
 import com.genture.onlineplatform.param.MessageType;
+import com.genture.onlineplatform.service.InfoService;
 import com.genture.onlineplatform.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/7/17.
@@ -19,6 +24,8 @@ public class InfoController {
 
 	@Autowired
 	private MessageService messageService;
+	@Autowired
+	private InfoService infoService;
 
 	@RequestMapping(value="/api/vms_status/{deviceId}",method = RequestMethod.GET)
 	public void queryVmsState(@PathVariable("deviceId")String deviceId, HttpServletResponse resp){
@@ -35,9 +42,14 @@ public class InfoController {
 		messageService.service(deviceId, null, MessageType.BASIC_PARAM, resp);
 	}
 
-	@RequestMapping("/api/processor_info/{deviceId}")
+	@RequestMapping("/api/gateway_info/{deviceId}")
 	public void queryGatewayInfo(@PathVariable("deviceId")String deviceId, HttpServletResponse resp) {
-		messageService.service(deviceId, null, MessageType.GATEWAY_INFO , resp);
+		List<GatewayInfo> gatewayInfoList = infoService.queryGatewayInfo(deviceId);
+		try {
+			resp.getWriter().write(gatewayInfoList.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@RequestMapping("/api/vms_version/{deviceId}")
@@ -47,12 +59,17 @@ public class InfoController {
 
 	@RequestMapping("/api/vms_online/{deviceId}")
 	public void queryVmsOnline(@PathVariable("deviceId")String deviceId, HttpServletResponse resp){
-
+		messageService.service(deviceId, null, MessageType.DEVICE_ONLINE, resp);
 	}
 
 	@RequestMapping("/api/encrypt/{deviceId}")
 	public void isEncrypt(@PathVariable("deviceId")String deviceId, HttpServletResponse resp) {
-		messageService.service(deviceId, null, MessageType.IS_ENCRYPT, resp);
+		List<EncryptInfo> encryptInfos = infoService.queryEncryptInfo(deviceId);
+		try {
+			resp.getWriter().write(encryptInfos.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@RequestMapping("/api/vms_screen_size/{deviceId}")

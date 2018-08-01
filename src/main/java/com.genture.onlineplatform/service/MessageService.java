@@ -2,9 +2,9 @@ package com.genture.onlineplatform.service;
 
 import com.genture.onlineplatform.dao.MessageDao;
 import com.genture.onlineplatform.message.RPCClient;
-import com.genture.onlineplatform.param.DeviceCode;
 import com.genture.onlineplatform.param.MessageType;
 import com.genture.onlineplatform.param.RequestMessage;
+import com.genture.onlineplatform.util.CommonUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,8 @@ public class MessageService {
 	private MessageDao messageDao;
 	@Autowired
 	private RPCClient rpcClient;
+	@Autowired
+	private CommonUtil commonUtil;
 
 	public void service(String id, String data, MessageType messageType, HttpServletResponse resp){
 
@@ -31,7 +33,7 @@ public class MessageService {
 		message.setData(data);
 
 		//根据设备id判断其属于前置机还是诱导屏，如果是诱导屏查其所属前置机id
-		boolean isGateway = isGateway(id);
+		boolean isGateway = commonUtil.isGateway(id);
 		String gatewayId = "";
 		String queueName = "";
 		if(isGateway){
@@ -55,19 +57,5 @@ public class MessageService {
 		}
 	}
 
-	/**
-	 * 判断该设备编码是不是前置机编码
-	 * @param deviceId
-	 * @return
-	 */
-	private boolean isGateway(String deviceId){
 
-		DeviceCode deviceCode = DeviceCode.parseDeviceCode(deviceId);
-
-		if (deviceCode.getDeviceTypeCode().toLowerCase() == "c0") {
-			return true;
-		} else {
-			return false;
-		}
-	}
 }

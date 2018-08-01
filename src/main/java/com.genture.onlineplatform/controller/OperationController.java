@@ -1,4 +1,4 @@
-package com.genture.onlineplatform.controller.operation;
+package com.genture.onlineplatform.controller;
 
 import com.genture.onlineplatform.param.MessageType;
 import com.genture.onlineplatform.service.MessageService;
@@ -66,10 +66,5 @@ public class OperationController {
 	@RequestMapping(value = "/api/vms_crop", method = RequestMethod.POST)
 	public void crop(@PathVariable("deviceId") String deviceId, @RequestBody String data, HttpServletResponse resp) {
 		messageService.service(deviceId, data, MessageType.CROP, resp);
-	}
-
-	@RequestMapping(value = "/api/clear_screen", method = RequestMethod.POST)
-	public void clearScreen(@PathVariable("deviceId") String deviceId, @RequestBody String data, HttpServletResponse resp) {
-		messageService.service(deviceId, data, MessageType.SCREEN_CLEAN, resp);
 	}
 }
