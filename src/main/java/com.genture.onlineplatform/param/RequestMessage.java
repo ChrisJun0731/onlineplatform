@@ -5,9 +5,18 @@ package com.genture.onlineplatform.param;
  */
 public class RequestMessage {
 
+	private String msgId;
 	private String id;
 	private String type;
 	private String data;
+
+	public String getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
+	}
 
 	public String getId() {
 		return id;

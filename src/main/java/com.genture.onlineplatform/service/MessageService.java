@@ -1,6 +1,6 @@
 package com.genture.onlineplatform.service;
 
-import com.genture.onlineplatform.dao.MessageDao;
+import com.genture.onlineplatform.dao.GatewayInfoDao;
 import com.genture.onlineplatform.message.RPCClient;
 import com.genture.onlineplatform.param.MessageType;
 import com.genture.onlineplatform.param.RequestMessage;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class MessageService {
 
 	@Autowired
-	private MessageDao messageDao;
+	private GatewayInfoDao gatewayInfoDao;
 	@Autowired
 	private RPCClient rpcClient;
 	@Autowired
@@ -39,7 +39,7 @@ public class MessageService {
 		if(isGateway){
 			gatewayId = id;
 		}else{
-			gatewayId = messageDao.queryGatewayId(id);
+			gatewayId = gatewayInfoDao.queryGatewayId(id);
 		}
 		if (gatewayId == null) {
 			System.out.println("查找不到此诱导屏所属的前置机，请确认！");

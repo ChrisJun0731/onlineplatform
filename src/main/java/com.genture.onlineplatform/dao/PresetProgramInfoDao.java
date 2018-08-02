@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Administrator on 2018/7/31.
+ * Created by Administrator on 2018/8/1.
  */
 @Component
-public class ProgramDao {
+public class PresetProgramInfoDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

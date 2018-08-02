@@ -1,6 +1,6 @@
 package com.genture.onlineplatform.service;
 
-import com.genture.onlineplatform.dao.ProgramDao;
+import com.genture.onlineplatform.dao.PresetProgramInfoDao;
 import com.genture.onlineplatform.util.CommonUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +15,18 @@ import java.util.List;
 public class ProgramService {
 
 	@Autowired
-	private ProgramDao programDao;
+	private PresetProgramInfoDao programInfoDao;
 	@Autowired
 	private CommonUtil commonUtil;
 
 	public String savePresetProgram(String deviceId, String data){
 
-		List<String> playlistNames = programDao.getPlaylistNamesById(deviceId);
+		List<String> playlistNames = programInfoDao.getPlaylistNamesById(deviceId);
 		JSONObject program = JSONObject.fromObject(data);
 		String presetName = (String)program.get("name");
 		String playlistName = newPlaylistName(getMaxNum(playlistNames));
 
-		programDao.savePresetProgram(deviceId, presetName, playlistName);
+		programInfoDao.savePresetProgram(deviceId, presetName, playlistName);
 		program.element("name", playlistName);
 
 		return program.toString();
@@ -66,7 +66,7 @@ public class ProgramService {
 	public String queryPlaylistName(String deviceId, String data) {
 		JSONObject obj = JSONObject.fromObject(data);
 		String presetName = (String)obj.get("presetName");
-		String playlistName = programDao.getPlaylistNameByPresetName(deviceId, presetName);
+		String playlistName = programInfoDao.getPlaylistNameByPresetName(deviceId, presetName);
 		obj.element("presetName", playlistName);
 		return obj.toString();
 	}
@@ -77,13 +77,13 @@ public class ProgramService {
 	 * @return
 	 */
 	public List<String> queryPresetNames(String deviceId) {
-		return programDao.getPresetNames(deviceId);
+		return programInfoDao.getPresetNames(deviceId);
 	}
 
 	public String setOfflinePrograme(String deviceId, String data){
 		JSONObject obj = JSONObject.fromObject(data);
 		String presetName = obj.getString("presetName");
-		String playlistName = programDao.getPlaylistNameByPresetName(deviceId, presetName);
+		String playlistName = programInfoDao.getPlaylistNameByPresetName(deviceId, presetName);
 		obj.element("presetName", playlistName);
 		return obj.toString();
 	}

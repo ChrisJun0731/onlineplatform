@@ -1,6 +1,5 @@
 package com.genture.onlineplatform.dao;
 
-import com.genture.onlineplatform.param.info.EncryptInfo;
 import com.genture.onlineplatform.param.info.GatewayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2018/7/30.
+ * Created by Administrator on 2018/8/1.
  */
 @Component
-public class InfoDao {
+public class GatewayInfoDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -75,46 +74,22 @@ public class InfoDao {
 	}
 
 	/**
-	 * 查询前置机下所有诱导屏是否加密信息
+	 * 查询前置机id
 	 * @param deviceId
 	 * @return
 	 */
-	public List<EncryptInfo> queryEncryptInfoByGatewayId(String deviceId){
-
-		String sql = "select encrypt.id, encrypt.encrypt from t_encrypt_info encrypt,t_vms_info vms where" +
-				"vms.gateway_id = ? and vms.id = encrypt.id";
-
-		List<EncryptInfo> encryptInfos = jdbcTemplate.query(sql, (rs, i)->{
-			EncryptInfo encryptInfo = new EncryptInfo();
-			String id = rs.getString("id");
-			int encypt = rs.getInt("encrypt");
-			encryptInfo.setId(id);
-			encryptInfo.setEncrypt(encypt==0?false:true);
-			return encryptInfo;
-		}, deviceId);
-
-		return encryptInfos;
+	public String queryGatewayId(String deviceId){
+		String sql = "select gateway_id from t_vms_info where id = " + deviceId ;
+		return jdbcTemplate.queryForObject(sql, String.class);
 	}
 
 	/**
-	 * 查询诱导屏是否加密信息
-	 * @param deviceId
+	 * 查询所有有效前置机id
 	 * @return
 	 */
-	public List<EncryptInfo> queryEncryptInfoById(String deviceId){
-
-		String sql = "select id, encrypt from t_encrypt_info where id=?";
-
-		List<EncryptInfo> encryptInfos = jdbcTemplate.query(sql, (rs, i)->{
-			EncryptInfo encryptInfo = new EncryptInfo();
-			String id = rs.getString("id");
-			int encypt = rs.getInt("encrypt");
-			encryptInfo.setId(id);
-			encryptInfo.setEncrypt(encypt==0?false:true);
-			return encryptInfo;
-		}, deviceId);
-
-		return encryptInfos;
-
+	public List<String> getGatewayIds(){
+		String sql = "select id from t_gateway_info where status = 1";
+		List<String> gatewayIds = jdbcTemplate.query(sql, (rs, i) -> rs.getString("id"));
+		return gatewayIds;
 	}
 }
